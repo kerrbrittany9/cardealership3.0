@@ -3,16 +3,16 @@ class Car
 {
     private $make_type;
     private $cost;
-    private $distance;
-    private $status;
+    private $mileage;
+    private $condition;
     private $picture;
 
-    function __construct($make_model, $price, $miles, $condition, $image_location)
+    function __construct($make_model, $price, $mileage, $condition, $image_location)
     {
         $this->make_type = $make_model;
         $this->cost = $price;
-        $this->distance = $miles;
-        $this->status = $condition;
+        $this->mileage = $mileage;
+        $this->condition = $condition;
         $this->picture = $image_location;
     }
 
@@ -23,7 +23,7 @@ class Car
 
     function getMiles()
     {
-        return $this->distance;
+        return $this->mileage;
     }
 
     function getType()
@@ -36,14 +36,18 @@ class Car
         return $this->picture;
     }
 
-    function getStatus()
+    function getCondition()
     {
-        return $this->status;
+        return $this->condition;
     }
 
+    function save()
+    {
+        array_push($_SESSION['listings'], $this);
+    }
     static function getAll()
     {
-        return $_SESSION['listings']
+        return $_SESSION['listings'];
     }
 }
 ?>

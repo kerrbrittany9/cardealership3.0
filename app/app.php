@@ -5,54 +5,40 @@
 
     session_start();
 
-    $app 
+    if (empty($_SESSION['listings'])) {
+        $_SESSION['listings'] = array();
+    }
+
+    // use Symfony\Component\Debug\Debug;
+    // Debug::enable();
 
     $app = new Silex\Application();
+    $app->register(new Silex\Provider\TwigServiceProvider(), array(
+        'twig.path' => __DIR__.'/../views'
+    ));
 
-    $app->get("/", function() {
-          return $app['twig']->render('home.html.twig', array('listings' => Car::getAll()));      });
+    $app->get("/", function() use ($app) {
+        return $app['twig']->render('home.html.twig', array('listings' => Car::getAll()));
+    });
 
-    $app->get("/search", function() {
-        $porsche = new Car('2011 Porsche 911', 114991, 7864, 'Lightly used', 'porsche.jpg');
-        $ford = new Car('2008 Ford F450', 80000, 14241, 'Brilliant', 'ford.jpeg');
-        $lexus = new Car('2016 Lexus RX 350', 44700, 20000, 'Shiney', 'Lexus.png');
-        $mercedes = new Car('2025 Mercedes Benz CLS550', 3990000, 37979, 'Fantastic', 'Mercedes.png');
-        $warning = "";
-        $header = "<!DOCTYPE html>
-        <html>
-        <head>
-            <title>Your Car Dealership's Homepage</title>
-        </head>
-        <body>";
-        $footer = "</body>
-        </html>";
+    $app->get("/search", function() use ($app) {
+        $porsche = new Car('2011 Porsche 911', 114991, 7864, 'Lightly used', '/../img/porsche.jpg');
+        $ford = new Car('2008 Ford F450', 80000, 14241, 'Brilliant', '/../img/ford.jpeg');
+        $lexus = new Car('2016 Lexus RX 350', 44700, 20000, 'Shiney', '/../img/Lexus.png');
+        $mercedes = new Car('2025 Mercedes Benz CLS550', 3990000, 37979, 'Fantastic', '/../img/Mercedes.png');
+
         $cars = array($porsche, $ford, $lexus, $mercedes);
-
         $cars_matching_search = array();
 
-        foreach ($cars as $car) {
-            if ($car->getMiles() < $_GET['distance'] && $_GET['price'] == ''){
-                  array_push($cars_matching_search, $car);
-            } elseif ($car->getPrice() < $_GET['price'] && $_GET['distance'] == '') {
-                array_push($cars_matching_search, $car);
-            } elseif ($car->getPrice() < $_GET['price'] && $car->getMiles() < $_GET['distance']) {
-                  array_push($cars_matching_search, $car);
+        if (empty($cars_matching_search) == true) {
+            foreach ($cars as $car) {
+                if ($car->getMiles() < $_GET['distance'] && $car->getPrice() < $_GET['price']) {
+                      array_push($cars_matching_search, $car);
+                }
             }
         }
-        if (empty($cars_matching_search)) {
-            $warning = 'Your search has provided no results!';
-        }
-        $output = "";
-        foreach ($cars_matching_search as $car) {
-            $output = $output .
-            "<p>" . $car->getType() . "</p> <br>
-            <p> <img src = img/" . $car->getPicture() . "></p><br>
-            <p> $" . $car->getPrice() . "</p><br>
-            <p> Miles:" . $car->getMiles() . "</p><br>
-            <p> Condition:" . $car->getStatus() . " </p><br>
-            ";
-        }
-        return $header . $output . $footer;
+        // var_dump($cars_matching_search);
+        return $app['twig']->render('search_results.html.twig', array('matching_car' => $cars_matching_search));
     });
         return $app;
   ?>

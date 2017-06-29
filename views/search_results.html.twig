@@ -1,0 +1,17 @@
+<html>
+<head>
+</head>
+<body>
+    {% if matching_car is empty %}
+        <h1>Your search has provided no results</h1>
+    {% else %}
+        {% for car in matching_car %}
+        <p> {{ car.getType }} </p><br>
+        <p><img src='{{ car.getPicture }}' alt='car photo'></p><br>
+        <p> {{ car.getPrice }} </p><br>
+        <p> {{ car.getMiles }} </p><br>
+        <p> {{ car.getCondition }} </p><br>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
