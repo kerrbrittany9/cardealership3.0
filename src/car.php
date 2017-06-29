@@ -41,6 +41,9 @@ class Car
         return $this->status;
     }
 
-
+    static function getAll()
+    {
+        return $_SESSION['listings']
+    }
 }
 ?>

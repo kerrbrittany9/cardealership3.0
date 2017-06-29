@@ -1,38 +1,18 @@
 <?php
-  date_default_timezone_set('America/Los_Angeles');
-  require_once __DIR__."/../vendor/autoload.php";
-  require_once __DIR__."/../src/car.php";
+    date_default_timezone_set('America/Los_Angeles');
+    require_once __DIR__."/../vendor/autoload.php";
+    require_once __DIR__."/../src/car.php";
 
+    session_start();
 
-  $app = new Silex\Application();
+    $app 
 
-  $app->get("/", function() {
-      return
-      "<!DOCTYPE html>
-      <html>
-      <head>
-          <title>Your Car Dealership's Homepage</title>
-      </head>
-      <body>
-          <h1>Your Car Dealership</h1>
-          <form action='/search'>
-              </div><div class='form-group'>
-                  <label for='price'>Preferred Price</label>
-                  <input id='price' name='price' class='form-control' type='number'>
-              </div><div class='form-group'>
-                  <label for='distance'>Preferred mileage</label>
-                  <input id='distance' name='distance' class='form-control' type='number'>
-              </div>
-              <button type='submit' class='btn'>Go!</button>
-          </form>
-          <ul>
-          </ul>
-      </body>
-      </html>
-          ";
-      });
+    $app = new Silex\Application();
 
-  $app->get("/search", function() {
+    $app->get("/", function() {
+          return $app['twig']->render('home.html.twig', array('listings' => Car::getAll()));      });
+
+    $app->get("/search", function() {
         $porsche = new Car('2011 Porsche 911', 114991, 7864, 'Lightly used', 'porsche.jpg');
         $ford = new Car('2008 Ford F450', 80000, 14241, 'Brilliant', 'ford.jpeg');
         $lexus = new Car('2016 Lexus RX 350', 44700, 20000, 'Shiney', 'Lexus.png');
