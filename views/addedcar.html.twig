@@ -1,0 +1,19 @@
+<html>
+<head>
+</head>
+<body>
+    {% if car_sale is empty %}
+        <h1>The most recent entry to inventory is missing information, please re-enter, completing ALL fields.</h1>
+        <p>Please fill out the entire form.</p>
+    {% else %}
+        <h1>The following car has been added to inventory:</h1>
+            <p> {{ car_sale.getType }} </p><br>
+            <p><img src='{{ car_sale.getPicture }}'></p><br>
+            <p> {{ car_sale.getPrice }} </p><br>
+            <p> {{ car_sale.getMiles }} </p><br>
+            <p> {{ car_sale.getCondition }} </p><br>
+    {% endif %}
+    <h2><a href='/'>Home</a></h2>
+    <h2><a href='/sellcar'>Sell another car.</a></h2>
+</body>
+</html>

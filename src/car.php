@@ -7,13 +7,13 @@ class Car
     private $condition;
     private $picture;
 
-    function __construct($make_model, $price, $mileage, $condition, $image_location)
+    function __construct($make_model, $price, $mileage, $condition, $picture)
     {
         $this->make_type = $make_model;
         $this->cost = $price;
         $this->mileage = $mileage;
         $this->condition = $condition;
-        $this->picture = $image_location;
+        $this->picture = $picture;
     }
 
     function getPrice()
@@ -42,12 +42,18 @@ class Car
     }
 
     function save()
+
     {
         array_push($_SESSION['listings'], $this);
     }
     static function getAll()
     {
         return $_SESSION['listings'];
+    }
+
+    static function deleteAll()
+    {
+        $_SESSION['listings'] = array();
     }
 }
 ?>

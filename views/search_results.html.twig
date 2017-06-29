@@ -5,13 +5,16 @@
     {% if matching_car is empty %}
         <h1>Your search has provided no results</h1>
     {% else %}
+        <h1>Dealer Cars for Sale</h1>
         {% for car in matching_car %}
-        <p> {{ car.getType }} </p><br>
-        <p><img src='{{ car.getPicture }}' alt='car photo'></p><br>
-        <p> {{ car.getPrice }} </p><br>
-        <p> {{ car.getMiles }} </p><br>
-        <p> {{ car.getCondition }} </p><br>
+            <p> {{ car.getType }} </p><br>
+            <p><img src='{{ car.getPicture }}' alt='car photo'></p><br>
+            <p> {{ car.getPrice }} </p><br>
+            <p> {{ car.getMiles }} </p><br>
+            <p> {{ car.getCondition }} </p><br>
         {% endfor %}
     {% endif %}
+    <h2><a href='/'>Start Over</a></h2>
+
 </body>
 </html>
